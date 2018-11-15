@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf8">
+    <title>tpng.me</title>
+  </head>
+  <body>
+    <form class="form">
+      <fieldset>
+        <legend>Dimensions</legend>
+        <input name="width" type="number" min="1" step="1" placeholder="Width" title="Width">
+        ×
+        <input name="height" type="number" min="1" step="1" placeholder="Height" title="Height">
+      </fieldset>
+      <fieldset>
+        <legend>Filename</legend>
+        <input name="filename" type="text" pattern="^[\w\.-]+$" placeholder="Filename" title="Filename">
+      </fieldset>
+      <button type="submit">Generate</button>
+    </form>
+    <script>
+      const form = document.querySelector('.form')
+      const widthInput = form.querySelector('[name="width"]')
+      const heightInput = form.querySelector('[name="height"]')
+      const filenameInput = form.querySelector('[name="filename"]')
+
+      form.addEventListener('submit', event => {
+        event.preventDefault()
+        const path = `${widthInput.value}x${heightInput.value}${filenameInput.value ? `/${filenameInput.value}` : ''}`
+        location.href = `${location.protocol}//${location.host}/${path}`
+      })
+
+      const setDefaultFilename = () => {
+        if ((!filenameInput.value || /^\d+x\d+$/.test(filenameInput.value)) && widthInput.value && heightInput.value) {
+          filenameInput.value = `${widthInput.value}x${heightInput.value}`
+        }
+      }
+
+      widthInput.addEventListener('input', setDefaultFilename)
+      heightInput.addEventListener('input', setDefaultFilename)
+    </script>
+  </body>
+</html>
